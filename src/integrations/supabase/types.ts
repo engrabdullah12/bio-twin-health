@@ -14,7 +14,141 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dna_uploads: {
+        Row: {
+          created_at: string
+          file_name: string
+          file_path: string
+          file_size: number | null
+          id: string
+          processed_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          id?: string
+          processed_at?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          id?: string
+          processed_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      medication_history: {
+        Row: {
+          benefits: Json | null
+          compatibility_score: number
+          drug_name: string
+          id: string
+          interactions: Json | null
+          risks: Json | null
+          simulated_at: string
+          user_id: string
+        }
+        Insert: {
+          benefits?: Json | null
+          compatibility_score: number
+          drug_name: string
+          id?: string
+          interactions?: Json | null
+          risks?: Json | null
+          simulated_at?: string
+          user_id: string
+        }
+        Update: {
+          benefits?: Json | null
+          compatibility_score?: number
+          drug_name?: string
+          id?: string
+          interactions?: Json | null
+          risks?: Json | null
+          simulated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          date_of_birth: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wearable_data: {
+        Row: {
+          cortisol: number | null
+          created_at: string
+          device_type: string
+          glucose: number | null
+          heart_rate: number | null
+          id: string
+          sleep_score: number | null
+          steps: number | null
+          synced_at: string
+          user_id: string
+        }
+        Insert: {
+          cortisol?: number | null
+          created_at?: string
+          device_type: string
+          glucose?: number | null
+          heart_rate?: number | null
+          id?: string
+          sleep_score?: number | null
+          steps?: number | null
+          synced_at?: string
+          user_id: string
+        }
+        Update: {
+          cortisol?: number | null
+          created_at?: string
+          device_type?: string
+          glucose?: number | null
+          heart_rate?: number | null
+          id?: string
+          sleep_score?: number | null
+          steps?: number | null
+          synced_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
