@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
-import { Scan, Upload, Watch } from "lucide-react";
+import { Scan, Upload, Watch, LogIn, LogOut, User } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/bio-twin-hero.jpg";
 import BioTwinVisualization from "@/components/BioTwinVisualization";
 import VitalsGrid from "@/components/VitalsGrid";
 import DrugSimulator from "@/components/DrugSimulator";
 import DNAProfile from "@/components/DNAProfile";
+import DNAUpload from "@/components/DNAUpload";
+import WearableSync from "@/components/WearableSync";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
+  const { user, signOut, loading } = useAuth();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -22,10 +28,22 @@ export default function Index() {
             <a href="#dna" className="hover:text-foreground transition-colors">DNA Profile</a>
           </nav>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-xs text-glow-accent font-body">
-              <span className="w-1.5 h-1.5 rounded-full bg-glow-accent animate-pulse-glow" />
-              Twin Online
-            </div>
+            {user ? (
+              <>
+                <span className="text-xs text-muted-foreground font-body hidden sm:block">{user.email}</span>
+                <div className="flex items-center gap-1.5 text-xs text-glow-accent font-body">
+                  <span className="w-1.5 h-1.5 rounded-full bg-glow-accent animate-pulse-glow" />
+                  Twin Online
+                </div>
+                <button onClick={signOut} className="text-xs text-muted-foreground hover:text-foreground font-body flex items-center gap-1">
+                  <LogOut className="w-3.5 h-3.5" /> Sign Out
+                </button>
+              </>
+            ) : (
+              <Link to="/auth" className="text-xs bg-primary text-primary-foreground px-3 py-1.5 rounded-lg font-display font-medium hover:bg-primary/90 transition-colors flex items-center gap-1.5">
+                <LogIn className="w-3.5 h-3.5" /> Sign In
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -38,11 +56,7 @@ export default function Index() {
         </div>
         <div className="relative container mx-auto px-4 py-20 md:py-28">
           <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
               <p className="text-xs uppercase tracking-[0.3em] text-primary font-body mb-4">Personalized Pharmacology</p>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground leading-tight">
                 Your Digital Twin.{" "}
@@ -51,14 +65,13 @@ export default function Index() {
               <p className="mt-5 text-base text-muted-foreground font-body max-w-lg leading-relaxed">
                 Simulate how any medication interacts with your unique genetics, metabolism, and real-time biometrics — before you take it.
               </p>
-              <div className="flex gap-3 mt-8">
-                <button className="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-display font-medium text-sm hover:bg-primary/90 transition-colors flex items-center gap-2">
-                  <Upload className="w-4 h-4" /> Upload DNA
-                </button>
-                <button className="px-5 py-2.5 border border-border text-foreground rounded-lg font-display font-medium text-sm hover:bg-secondary/50 transition-colors flex items-center gap-2">
-                  <Watch className="w-4 h-4" /> Connect Wearable
-                </button>
-              </div>
+              {!user && (
+                <div className="flex gap-3 mt-8">
+                  <Link to="/auth" className="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-display font-medium text-sm hover:bg-primary/90 transition-colors flex items-center gap-2">
+                    <User className="w-4 h-4" /> Get Started
+                  </Link>
+                </div>
+              )}
             </motion.div>
           </div>
         </div>
@@ -85,6 +98,12 @@ export default function Index() {
           <div className="lg:col-span-3">
             <DrugSimulator />
           </div>
+        </section>
+
+        {/* Data integration section */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <DNAUpload />
+          <WearableSync />
         </section>
 
         {/* DNA Profile */}
